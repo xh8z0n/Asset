@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\accounts",
+    "\\accounts\\templates",
+    "\\accounts\\templates\\accounts",
+    "\\courses",
+    "\\courses\\migrations",
+    "\\courses\\templates",
+    "\\courses\\templates\\courses",
+    "\\final",
+    "\\staticfiles",
+    "\\templates"
+  ],
+  "PreviewInSolutionExplorer": false
+}

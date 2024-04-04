@@ -1,0 +1,455 @@
+{% load crispy_forms_tags %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    <style>
+        body {
+            background: linear-gradient(90deg, #06BBCC, #251dcb);
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Adjust the height of the container as needed */
+            background: linear-gradient(90deg, #06BBCC, #251dcb);
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .screen {
+            position: relative;
+            height: 595px; /* Adjusted height */
+            width: 1015px; /* Adjusted width */
+        }
+
+        .screen__background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            clip-path: inset(0 0 0 0);
+            clip-path: inset(0 0 0 0);
+        }
+
+        .screen__background__shape {
+            transform: rotate(45deg);
+            position: absolute;
+        }
+
+        .screen__background__shape1 {
+            height: 720px; /* Adjusted height */
+            width: 720px; /* Adjusted width */
+            background: #7875B5;
+            top: -50px;
+            right: 120px;
+            border-radius: 0 72px 0 0;
+        }
+
+        .screen__background__shape2 {
+            height: 320px; /* Adjusted height */
+            width: 320px; /* Adjusted width */
+            background: #06BBCC;
+            top: -172px;
+            right: 0;
+            border-radius: 32px;
+        }
+
+        .screen__background__shape3 {
+            height: 740px; /* Adjusted height */
+            width: 290px; /* Adjusted width */
+            background: linear-gradient(270deg, #06BBCC, #4C489D);
+            top: -24px;
+            right: 0;
+            border-radius: 32px;
+        }
+
+        .screen__background__shape4 {
+            height: 600px; /* Adjusted height */
+            width: 400px; /* Adjusted width */
+            background: rgb(40 234 218 / 0.67);
+            top: 420px;
+            right: 50px;
+            border-radius: 60px;
+        }
+
+        .login {
+            width: 600px; /* Adjusted width */
+            max-width: calc(100vw - 60px); /* Set a maximum width for the form to prevent overflow */
+            padding: 50px; /* Adjusted padding */
+            padding-top: 156px;
+            z-index: 1;
+            position: relative;
+            color: rgb(40 234 218 / 0.67);
+        }
+
+        .login__field {
+            padding: 20px 0px;
+            position: relative;
+        }
+
+        .login__icon {
+            position: absolute;
+            top: 30px;
+            color: #508b7f;
+        }
+
+        .login__input {
+            border: none;
+            border-bottom: 2px solid #D1D1D4;
+            background: none;
+            padding: 10px;
+            padding-left: 24px;
+            font-weight: 700;
+            width: 75%;
+            transition: .2s;
+            color: rgb(185 57 145 / 0.67);
+        }
+
+            .login__input:active,
+            .login__input:focus,
+            .login__input:hover {
+                outline: none;
+                border-bottom-color: #6A679E;
+            }
+
+        .login__submit {
+            background: #06BBCC;
+            font-size: 14px;
+            margin-top: 30px;
+            padding: 16px 20px;
+            border-radius: 26px;
+            border: 1px solid #D4D3E8;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            color: #4C489D;
+            box-shadow: 0px 2px 2px #5C5696;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+            .login__submit:active,
+            .login__submit:focus,
+            .login__submit:hover {
+                border-color: #6A679E;
+                outline: none;
+            }
+
+        .button__icon {
+            font-size: 24px;
+            margin-left: auto;
+            color: #7875B5;
+        }
+
+        .social-login {
+            position: absolute;
+            height: 140px;
+            width: 160px;
+            text-align: center;
+            bottom: 0px;
+            right: 0px;
+            color: #fff;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-login__icon {
+            padding: 20px 10px;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 0px 0px 8px #7875B5;
+        }
+
+            .social-login__icon:hover {
+                transform: scale(1.5);
+            }
+
+
+
+        legend {
+            font-weight: bold;
+            font-size: 1.6em;
+            background: linear-gradient(to bottom, #06BBCC, #00487C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
+
+
+
+
+</head>
+
+<body style="background-color: #06BBCC;">
+    <!-- Add the background color here -->
+
+    <div class="container">
+        <div class="screen">
+            <div class="screen__background">
+                <div class="screen__background__shape screen__background__shape1"></div>
+                <div class="screen__background__shape screen__background__shape2"></div>
+                <div class="screen__background__shape screen__background__shape3"></div>
+                <div class="screen__background__shape screen__background__shape4"></div>
+            </div>
+
+            <form class="well form-horizontal" action="{% url 'custom_signup' %}" method="post" id="contact_form">
+                {% csrf_token %}
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend><b>Registration Form</b></legend><br>
+
+
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">First Name</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="first_name" placeholder="First Name" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input for Last Name -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Last Name</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="last_name" placeholder="Last Name" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Username</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="username" placeholder="Username" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Password</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input name="password1" placeholder="Password" class="form-control" type="password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input name="password2" placeholder="Confirm Password" class="form-control" type="password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">E-Mail</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input name="email" placeholder="E-Mail Address" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Select input for Degree -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Degree</label>
+                        <div class="col-md-4 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                <select name="degree" class="form-control selectpicker">
+                                    <option value="">Select your Degree</option>
+                                    <option>Master</option>
+                                    <option>Bachelor</option>
+                                    <option>Doctorate</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Text input for Contact No. -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Contact No.</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                <input name="contact_no" placeholder="Contact No." class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <br>
+                            <br><center>
+                                <button type="submit" class="btn btn-info">SUBMIT <span class="glyphicon glyphicon-send"></span></button>
+
+                            </center>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <!-- /.container -->
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Include Bootstrap Validator JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function () {
+            // Hide the success message initially
+            $('#success_message').hide();
+
+            $('#contact_form').bootstrapValidator({
+                // BootstrapValidator configuration options
+                live: 'enabled', // Enable live validation
+                fields: {
+                    first_name: {
+                        validators: {
+                            stringLength: {
+                                min: 3,
+                                message: 'First name must be over 3 letters.'
+                            }
+                        }
+                    },
+                    last_name: {
+                        validators: {
+                            stringLength: {
+                                min: 3,
+                                message: 'Last name must be over 3 letters.'
+                            }
+                        }
+                    },
+
+
+                    username: {
+                        validators: {
+                            stringLength: {
+                                min: 5,
+                                message: 'Username must be over 5 letters.'
+                            }
+                        }
+                    },
+
+
+
+
+                    password1: {
+                        validators: {
+                            stringLength: {
+                                min: 8,
+                                message: 'Password must be over 8 letters.'
+                            }
+                        }
+                    },
+                    password2: {
+                        validators: {
+                            identical: {
+                                field: 'password1',
+                                message: 'Password and Confirm Password must match.'
+                            }
+                        }
+                    }
+                }
+            }).on('success.form.bv', function (e) {
+                // Prevent default form submission
+                e.preventDefault();
+
+                // Get the form instance
+                var $form = $(e.target);
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    type: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    success: function (result) {
+                        // Show the success message
+                        $('#success_message').slideDown({ opacity: "show" }, "slow");
+
+                        // Redirect to the homepage after successful form submission
+                        window.location.href = '/'; // Assuming the homepage URL is '/'
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors, if any
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+    </script>
+</body>
+</html>

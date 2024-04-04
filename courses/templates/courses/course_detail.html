@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.title }}</title>
+    <!-- Meta Tags -->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheets -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url('{{ course.image.url }}');
+            background-size: 100%;
+            background-repeat: repeat;
+            background-position: top;
+        }
+
+        .course-container {
+            /* Set fixed width and max-width */
+            width: 100%; /* Adjust as needed */
+            max-width: 1876px; /* Adjust as needed */
+            z-index: 1;
+            background-color: rgba(235, 233, 233); /* Adjust the opacity as needed */
+            padding: 15px;
+            border-radius: 10px;
+            /* Center align vertically */
+            position: absolute;
+            top: 86%;
+            transform: translateY(-50%);
+            /* Center align horizontally */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Enable scrolling */
+            overflow-y: auto;
+            max-height: 160vh; /* Adjust as needed */
+        }
+
+        #pdf-canvas {
+            width: 80vw; /* 50% of viewport width */
+            height: 95vh; /* 50% of viewport height */
+            border: 1px solid black;
+            max-width: 140vw; /* Adjust as needed */
+            max-height: 135vh; /* Adjust as needed */
+        }
+      
+    </style>
+
+
+  
+
+
+
+
+</head>
+<body>
+    <!-- Spinner -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="{% url 'index' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Asset-Tec Learning Platform</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+
+                <a href="{% url 'courses' %}" class="nav-item nav-link">Courses</a>
+
+                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- LOGO -->
+    <!-- Course Details -->
+    <!-- Course Details -->
+    <!-- Course Details -->
+    <!-- Course Details -->
+
+    <div class="container mt-5 course-container">
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.description }}</p>
+
+        <h5>{{ chapters.0.title }}</h5>
+        <p>{{ chapters.0.description }}</p>
+        {% if chapters.0.content_type == 'PDF' %}
+        <!-- View PDF Button -->
+        <button class="btn btn-primary view-pdf-btn" data-src="{{ chapters.0.content.url }}">View PDF</button>
+
+        <!-- Download PDF -->
+        <a href="{{ chapters.0.content.url }}" download>Download PDF</a>
+        {% elif chapters.0.content_type == 'TEXT' %}
+        <p>{{ chapters.0.content }}</p>
+        {% elif chapters.0.content_type == 'VIDEO' %}
+        <video width="320" height="240" controls>
+            <source src="{{ chapters.0.content.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %}
+
+        {% if chapters|length > 1 %}
+        <div id="additionalChapters" style="display: none;">
+
+            <ul>
+                {% for chapter in chapters %}
+                {% if forloop.counter > 1 %}
+                <li>
+                    <h5>{{ chapter.title }}</h5>
+                    <p>{{ chapter.description }}</p>
+                    {% if chapter.content_type == 'PDF' %}
+                    <!-- View PDF Button -->
+                    <button class="btn btn-primary view-pdf-btn" data-src="{{ chapter.content.url }}">View PDF</button>
+
+                    <!-- Download PDF -->
+                    <a href="{{ chapter.content.url }}" download>Download PDF</a>
+                    {% elif chapter.content_type == 'TEXT' %}
+                    <p>{{ chapter.content }}</p>
+                    {% elif chapter.content_type == 'VIDEO' %}
+                    <video width="320" height="240" controls>
+                        <source src="{{ chapter.content.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <button id="view-full-course-btn" class="btn btn-primary">View Full Course</button>
+        {% endif %}
+        <!-- Inside your container -->
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+
+
+
+    <script>
+$(document).ready(function () {
+    var currentChapterIndex = 0;
+    var chaptersCount = {{ chapters|length }};
+    var currentPage = 1;
+    var totalPages = 1;
+    var pdfSrc = ""; // Variable to store the PDF source
+
+    function showChapter(index) {
+        $('.chapter').hide();
+        $('.chapter:eq(' + index + ')').show();
+    }
+
+        function showNextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+    } else {
+        var nextChapterIndex = currentChapterIndex + 1;
+        while (nextChapterIndex < chaptersCount) {
+            var chapterPdfSrc = $('.chapter:eq(' + nextChapterIndex + ')').find('.view-pdf-btn').data('src');
+            var totalPagesPromise = pdfjsLib.getDocument(chapterPdfSrc).promise.then(function (pdfDoc) {
+                return pdfDoc.numPages;
+            });
+            if (totalPagesPromise > 0) {
+                showChapter(nextChapterIndex);
+                currentPage = 1; // Reset page number to 1 for the new chapter
+                totalPages = totalPagesPromise; // Update totalPages for the new chapter
+                return;
+            }
+            nextChapterIndex++;
+        }
+    }
+}
+
+
+
+    function showPreviousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    }
+
+    function showPage(page) {
+        // Code for showing specific page of PDF
+        // Assuming you're using PDF.js library
+        var canvas = document.getElementById('pdf-canvas');
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        pdfjsLib.getDocument(pdfSrc).promise.then(function (pdfDoc) {
+            totalPages = pdfDoc.numPages; // Update total pages
+            pdfDoc.getPage(page).then(function (page) {
+                var viewport = page.getViewport({ scale: 1.5 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        });
+    }
+
+    function showNextChapter() {
+        currentChapterIndex = (currentChapterIndex + 1) % chaptersCount;
+        showChapter(currentChapterIndex);
+        currentPage = 1; // Reset page number to 1 for the new chapter
+        // You may also want to update totalPages for the new chapter
+    }
+
+    function showPreviousChapter() {
+        currentChapterIndex = (currentChapterIndex - 1 + chaptersCount) % chaptersCount;
+        showChapter(currentChapterIndex);
+        currentPage = 1; // Reset page number to 1 for the new chapter
+        // You may also want to update totalPages for the new chapter
+    }
+
+    // Show first chapter initially
+    showChapter(currentChapterIndex);
+
+    // Event listener for "Next Page" button click
+    $(document).on('click', '.next-page-btn', function () {
+        showNextPage();
+    });
+
+    // Event listener for "Previous Page" button click
+    $(document).on('click', '.prev-page-btn', function () {
+        showPreviousPage();
+    });
+
+    // Event listener for "Next Chapter" button click
+    $('.next-chapter-btn').click(function () {
+        showNextChapter();
+    });
+
+    // Event listener for "Previous Chapter" button click
+    $('.prev-chapter-btn').click(function () {
+        showPreviousChapter();
+    });
+
+    // Event listener for "View PDF" button click
+    $(document).on('click', '.view-pdf-btn', function () {
+        pdfSrc = $(this).data('src');
+        var container = $(this).closest('.container');
+
+        // Create a canvas element
+        var canvas = document.createElement('canvas');
+        canvas.id = 'pdf-canvas';
+        canvas.style.border = '1px solid black';
+
+        // Create buttons for next and previous pages
+        var prevPageBtn = document.createElement('button');
+        prevPageBtn.textContent = 'Previous Page';
+        prevPageBtn.className = 'btn btn-primary prev-page-btn';
+
+        var nextPageBtn = document.createElement('button');
+        nextPageBtn.textContent = 'Next Page';
+        nextPageBtn.className = 'btn btn-primary next-page-btn';
+
+        // Append the canvas and buttons to the container
+        container.empty().append(canvas, prevPageBtn, nextPageBtn);
+
+        // Code to display PDF based on the viewer library
+        showPage(1);
+    });
+
+    // Event listener for "View Full Course" button click
+    $('#view-full-course-btn').click(function () {
+        $('#additionalChapters').slideDown();
+        $('.course-container > h2, .course-container > h3, .course-container > p, .course-container > video, .course-container > .view-pdf-btn, .course-container > a').not(':eq(0)').slideDown();
+        $(this).hide(); // Hide the button after clicking
+    });
+});
+    </script>
+
+
+
+
+    <!-- JavaScript -->
+
+    
+
+
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="path/to/pdf.js"></script>
+    <script src="path/to/pdf.worker.js"></script>
+
+    <!-- PDF.js stylesheet -->
+    <link rel="stylesheet" href="path/to/pdf_viewer.css">
+    <script src="{% static 'js/lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'js/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'js/lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'js/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
